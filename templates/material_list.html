@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Material List</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+    <h1>Material List</h1>
+
+    {% if materials %}
+        <ul>
+            {% for material in materials %}
+                <li>
+                    {{ material.title }}
+                    <a href="{% url 'download_material' material.id %}">Download</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No materials available.</p>
+    {% endif %}
+    <div><hr class="dashed"></div>
+    <h1>Upload a Material:</h1>
+    <form action="{% url 'upload_material' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+        <label for="file">File:</label>
+        <input type="file" id="file" name="file" required><br><br>
+        <input type="submit" value="Upload" class="success-button">
+    </form>
+</body>
+</html>
